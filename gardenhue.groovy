@@ -2,6 +2,9 @@
 * Garden Hue v 3.0 
 * by lg. kahn
 *
+* Custom Hues v 1.0
+* by Warren Young
+*
 * This SmartApp will turn on if enabled after sunset and run to
 * sunrise.. It will change the hue color of your garden hue every xx
 * minutes based on a schedule.
@@ -76,6 +79,9 @@ preferences {
     section (" Colors Enabled") {
         input "holidayMode","bool", title: "Allow Enable/Disable for Each Color/Holiday Mode?", required: false, defaultValue: false
 
+        //>> WY1.0
+        input "customEnabled", "bool", title: "Enable Custom?", required: false, defaultValue: true
+        //<< WY1.0
         input "redEnabled", "bool", title: "Enable Red?", required: false, defaultValue: true    
         input "brickRedEnabled", "bool", title: "Enable Brick Red?", required: false, defaultValue: true    
         input "safetyOrangeEnabled", "bool", title: "Enable Safety Orange?", required: false, defaultValue: true    
@@ -361,6 +367,10 @@ def changeHandler(evt) {
          // now define new array
          def enabledColorArray = []
 
+           //>> WY1.0
+           if (customEnabled == true)
+               enabledColorArray <<  "Custom"
+           //<< WY1.0
            if (redEnabled == true)
                enabledColorArray <<  "Red"
            if (brickRedEnabled == true)
@@ -393,8 +403,6 @@ def changeHandler(evt) {
                enabledColorArray <<  "Rasberry"
            if (whiteEnabled == true)
                enabledColorArray <<  "White"
-
-
 
            def int colorsEnabled = enabledColorArray.size
            log.debug "Enabled Color Count = $colorsEnabled"
@@ -434,7 +442,10 @@ def changeHandler(evt) {
         // not holiday mode
 
         def int nextValue = new Random().nextInt(16)
-        def colorArray = ["Red","Brick Red","Safety Orange","Orange","Amber","Yellow","Green","Turquoise","Aqua","Navy Blue","Blue","Indigo","Purple","Pink","Rasberry","White"]
+        //>> WY1.0
+        //def colorArray = ["Red","Brick Red","Safety Orange","Orange","Amber","Yellow","Green","Turquoise","Aqua","Navy Blue","Blue","Indigo","Purple","Pink","Rasberry","White"]
+        def colorArray = ["Custom","Red","Brick Red","Safety Orange","Orange","Amber","Yellow","Green","Turquoise","Aqua","Navy Blue","Blue","Indigo","Purple","Pink","Rasberry","White"]
+        //<< WY1.0
 
         log.debug "Random Number = $nextValue"
         newColor = colorArray[nextValue]    
@@ -456,7 +467,12 @@ def changeHandler(evt) {
 
        switch(currentColor) {
     
-		case "Red":
+		//>> WY1.0
+        case "Custom":
+            newColor="Red"
+            break;
+        //<< WY1.0  
+        case "Red":
 			newColor="Brick Red"
 			break;
 		case "Brick Red":
@@ -506,7 +522,10 @@ def changeHandler(evt) {
 			break;
                 default:
         	//log.debug "in default"
-                        newColor = "Red"
+                        //>> wy001
+                        //newColor = "Red"
+                        newColor = "Custom"
+                        //<< wy001
 			break;
 	}
 
@@ -599,7 +618,13 @@ def sendcolor(color) { log.debug "In send color"
 			break;
          case "Brick Red":
             hueColor = 4
-            break;                
+            break;
+        //>> WY1.0
+        case "Custom":
+            hueColor = 90.78
+            saturation = 80
+            break;
+        //<< WY1.0
 	}
 
 	//Change the color of the light
@@ -692,7 +717,13 @@ def sendcolor(color,which)
 			break;
          case "Brick Red":
             hueColor = 4
-            break;                
+            break;          
+        //>> WY1.0
+        case "Custom":
+            hueColor = 90.78
+            saturation = 80
+            break;
+        //<< WY1.0
 	}
 
 	//Change the color of the light
@@ -725,7 +756,3 @@ private mysend(msg) {
 
    // log.debug msg
 }
-
-
-
-
