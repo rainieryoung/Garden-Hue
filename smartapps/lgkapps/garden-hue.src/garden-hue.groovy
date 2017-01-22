@@ -2,9 +2,6 @@
 * Garden Hue v 3.0 
 * by lg. kahn
 *
-* Custom Hues v 1.0
-* by Warren Young
-*
 * This SmartApp will turn on if enabled after sunset and run to
 * sunrise.. It will change the hue color of your garden hue every xx
 * minutes based on a schedule.
@@ -32,6 +29,10 @@
 * https://github.com/lgkapps/SmartThingsPublic/gardenhue
 *
 */
+
+// 01/22/17
+// WY1.0 
+// Added Custom Hue option, experimental switch
 
 definition(
 name: "Garden Hue",
