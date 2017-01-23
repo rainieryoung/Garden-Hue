@@ -33,6 +33,8 @@
 // 01/22/17
 // WY1.0 
 // Added Custom Hue option, experimental switch
+// WY1.1
+// Added 
 
 definition(
 name: "Garden Hue",
@@ -273,26 +275,40 @@ def TurnOff()
     {
       mysend("$app.label: Turning Off!")
 	}
-	hues.off()
+	//>> WY1.1
+    //hues.off()
+    TurnOffHues()
+    //<< WY1.1
 }    
 
 
  
 def TurnOffAlways()
 {
-      mysend("$app.label: Turning Off!")
-	  hues.off()
+	mysend("$app.label: Turning Off!")
+	//>> WY1.1
+    //hues.off()
+    TurnOffHues()
+    //<< WY1.1
 }    
 
 def TurnOn()
 {
-   // log.debug "In turn on"
+    // log.debug "In turn on"
     if (settings.enabled == true)
     {
      mysend("$app.label: Turning On!")
      hues.on()
     }
 }
+
+//>> WY1.1
+def TurnOffHues()
+{
+	sendcolor("Soft White")
+    hues.off()
+}
+//<< WY1.1
 
 def scheduleNextSunrise(evt) {
 
