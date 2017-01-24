@@ -31,10 +31,9 @@
 */
 
 // 01/22/17
-// WY1.0 
-// Added Custom Hue option, experimental switch
-// WY1.1
-// Added 
+// WY1.0 Added custom Hue option, experimental switch
+// WY1.1 Added TurnOffHues() to return to Soft White prior to turning off
+// WY1.2 Skip hues.off() from TurnOffHues(), just return to Soft White and let dimmer switch control on/off
 
 definition(
 name: "Garden Hue",
@@ -306,7 +305,9 @@ def TurnOn()
 def TurnOffHues()
 {
 	sendcolor("Soft White")
-    hues.off()
+    //>> WY1.2
+    //hues.off()
+    //<< WY1.2
 }
 //<< WY1.1
 
