@@ -34,6 +34,7 @@
 // WY1.0 Added custom Hue option, experimental switch
 // WY1.1 Added TurnOffHues() to return to Soft White prior to turning off
 // WY1.2 Skip hues.off() from TurnOffHues(), just return to Soft White and let dimmer switch control on/off
+// WY1.3 Rollback WY1.1 and WY1.2
 
 definition(
 name: "Garden Hue",
@@ -274,10 +275,7 @@ def TurnOff()
     {
       mysend("$app.label: Turning Off!")
 	}
-	//>> WY1.1
-    //hues.off()
-    TurnOffHues()
-    //<< WY1.1
+    hues.off()
 }    
 
 
@@ -285,10 +283,7 @@ def TurnOff()
 def TurnOffAlways()
 {
 	mysend("$app.label: Turning Off!")
-	//>> WY1.1
-    //hues.off()
-    TurnOffHues()
-    //<< WY1.1
+    hues.off()
 }    
 
 def TurnOn()
@@ -300,16 +295,6 @@ def TurnOn()
      hues.on()
     }
 }
-
-//>> WY1.1
-def TurnOffHues()
-{
-	sendcolor("Soft White")
-    //>> WY1.2
-    //hues.off()
-    //<< WY1.2
-}
-//<< WY1.1
 
 def scheduleNextSunrise(evt) {
 
